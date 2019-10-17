@@ -21,6 +21,8 @@
 extern "C" {
 #endif
 
+void set_activity_callback(void (*activity_callback_function)());
+
 /**
  * @brief Enable advertising with Node Identity.
  *

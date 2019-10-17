@@ -58,6 +58,14 @@
 #define ADV_OPT (BT_LE_ADV_OPT_CONNECTABLE | BT_LE_ADV_OPT_ONE_TIME)
 #endif
 
+void (*proxy_activity_function)(); //MDW
+
+void set_activity_callback(void (*activity_callback_function)()) {
+	proxy_activity_function = activity_callback_function;
+	printk("proxy activity callback function set");
+}
+
+
 static const struct bt_le_adv_param slow_adv_param = {
 	.options = ADV_OPT,
 	.interval_min = BT_GAP_ADV_SLOW_INT_MIN,
@@ -418,6 +426,7 @@ int bt_mesh_proxy_identity_enable(void)
 
 static void proxy_complete_pdu(struct bt_mesh_proxy_client *client)
 {
+	(*proxy_activity_function)();
 	switch (client->msg_type) {
 #if defined(CONFIG_BT_MESH_GATT_PROXY)
 	case BT_MESH_PROXY_NET_PDU:
